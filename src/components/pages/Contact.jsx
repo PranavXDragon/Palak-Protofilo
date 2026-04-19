@@ -31,10 +31,20 @@ export default function Contact() {
         body: JSON.stringify(formData),
       })
 
-      const data = await response.json()
+      // Try to parse JSON, but handle cases where response isn't valid JSON
+      let data = {}
+      const contentType = response.headers.get('content-type')
+      if (contentType && contentType.includes('application/json')) {
+        try {
+          data = await response.json()
+        } catch (jsonError) {
+          console.error('Failed to parse JSON response:', jsonError)
+          data = { message: 'Server error occurred. Please check your MongoDB Atlas connection.' }
+        }
+      }
 
       if (!response.ok) {
-        throw new Error(data.message || 'Failed to send message')
+        throw new Error(data.message || `Server error: ${response.status}`)
       }
 
       // Success

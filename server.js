@@ -34,7 +34,8 @@ mongoose.connect(mongoUri, mongoOptions)
   })
   .catch((error) => {
     console.error('❌ MongoDB connection error:', error.message);
-    process.exit(1);
+    console.warn('⚠️ Server will continue running, but database operations will fail');
+    console.warn('ℹ️ Check your MongoDB Atlas cluster status and network access settings');
   });
 
 // Contact Form Schema
@@ -84,6 +85,15 @@ const Contact = mongoose.model('Contact', contactSchema);
  */
 app.post('/api/contact', async (req, res) => {
   try {
+    // Check MongoDB connection
+    if (mongoose.connection.readyState !== 1) {
+      return res.status(503).json({
+        success: false,
+        message: 'Database connection unavailable. Please try again in a moment.',
+        error: 'MongoDB is not connected. Check your cluster status and network access in MongoDB Atlas.',
+      });
+    }
+
     const { fullname, email, message } = req.body;
 
     // Validation
