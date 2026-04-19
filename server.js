@@ -176,10 +176,16 @@ app.post('/api/contact', async (req, res) => {
  * Health check endpoint
  */
 app.get('/api/health', (req, res) => {
-  res.json({
-    status: 'ok',
+  const dbConnected = mongoose.connection.readyState === 1;
+  res.status(dbConnected ? 200 : 503).json({
+    status: dbConnected ? 'healthy' : 'degraded',
     timestamp: new Date().toISOString(),
-    database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
+    database: {
+      connected: dbConnected,
+      state: mongoose.connection.readyState,
+      uri: process.env.MONGODB_URI ? 'configured' : 'not_configured',
+    },
+    server: 'running',
   });
 });
 
