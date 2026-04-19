@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 
 const mongoUri = process.env.MONGODB_URI;
 
-console.log('📝 Contact API Loading...');
-console.log('MongoDB URI configured:', !!mongoUri);
+console.log('[CONTACT] API Loading...');
+console.log('[CONTACT] MongoDB URI set:', !!mongoUri);
 
 const contactSchema = new mongoose.Schema({
   fullname: { type: String, required: true },
@@ -15,11 +15,10 @@ const contactSchema = new mongoose.Schema({
 let Contact;
 
 const connectDB = async () => {
-  console.log('🔄 Checking MongoDB connection...');
-  console.log('Connection state:', mongoose.connection.readyState);
+  console.log('[CONTACT] Checking MongoDB connection...');
   
   if (mongoose.connection.readyState === 1) {
-    console.log('✅ Already connected to MongoDB');
+    console.log('[CONTACT] Already connected');
     if (mongoose.models.Contact) {
       Contact = mongoose.models.Contact;
     } else {
@@ -33,12 +32,12 @@ const connectDB = async () => {
   }
 
   try {
-    console.log('🔗 Connecting to MongoDB...');
+    console.log('[CONTACT] Connecting to MongoDB...');
     await mongoose.connect(mongoUri, {
       maxPoolSize: 5,
       serverSelectionTimeoutMS: 5000,
     });
-    console.log('✅ MongoDB connected successfully');
+    console.log('[CONTACT] Connected successfully');
     
     if (mongoose.models.Contact) {
       Contact = mongoose.models.Contact;
@@ -46,63 +45,76 @@ const connectDB = async () => {
       Contact = mongoose.model('Contact', contactSchema);
     }
   } catch (error) {
-    console.error('❌ MongoDB connection error:', error.message);
+    console.error('[CONTACT] Connection error:', error.message);
     throw error;
   }
 };
 
 module.exports = async (req, res) => {
-  console.log('\n========== CONTACT API REQUEST ==========');
-  console.log('Method:', req.method);
-  console.log('URL:', req.url);
-  console.log('Headers:', JSON.stringify(req.headers, null, 2));
-  console.log('Body:', JSON.stringify(req.body, null, 2));
-  console.log('=========================================\n');
+  console.log('\n[CONTACT] ========== REQUEST ==========');
+  console.log('[CONTACT] Method:', req.method);
+  console.log('[CONTACT] URL:', req.url);
+  console.log('[CONTACT] Body:', req.body);
+  console.log('[CONTACT] ============================\n');
 
+  // Set headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Content-Type', 'application/json');
 
   if (req.method === 'OPTIONS') {
-    console.log('✅ OPTIONS request - CORS preflight');
+    console.log('[CONTACT] CORS preflight');
     return res.status(200).end();
   }
 
   if (req.method !== 'POST') {
-    console.log('❌ Method not allowed:', req.method);
-    return res.status(405).json({ error: 'Method not allowed' });
+    console.log('[CONTACT] Wrong method:', req.method);
+    return res.status(405).json({ 
+      error: 'Method not allowed',
+      received: req.method,
+    });
   }
 
   try {
-    console.log('🔄 Starting form submission process...');
+    console.log('[CONTACT] Processing form submission...');
     
     await connectDB();
-    console.log('✅ Database connected');
+    console.log('[CONTACT] DB connected');
 
     const { fullname, email, message } = req.body;
 
-    console.log('📦 Received data:', { fullname, email, message });
-
     if (!fullname || !email || !message) {
-      console.log('❌ Missing fields');
-      return res.status(400).json({ error: 'Missing required fields' });
+      console.log('[CONTACT] Missing fields:', { fullname, email, message });
+      return res.status(400).json({ 
+        error: 'Missing required fields',
+        received: { fullname: !!fullname, email: !!email, message: !!message },
+      });
     }
 
-    console.log('✅ All fields present, saving to database...');
+    console.log('[CONTACT] Saving contact:', { fullname, email });
     
     const newContact = new Contact({ fullname, email, message });
     const saved = await newContact.save();
     
-    console.log('✅ Contact saved:', saved._id);
+    console.log('[CONTACT] Saved successfully:', saved._id);
 
-    res.status(201).json({ 
+    return res.status(201).json({ 
       success: true, 
       message: 'Message sent successfully!',
-      data: saved 
+      data: {
+        id: saved._id,
+        fullname: saved.fullname,
+        email: saved.email,
+      }
     });
   } catch (error) {
-    console.error('❌ Error:', error.message);
-    console.error('Stack:', error.stack);
-    res.status(500).json({ error: error.message || 'Server error' });
+    console.error('[CONTACT] Error:', error.message);
+    console.error('[CONTACT] Stack:', error.stack);
+    
+    return res.status(500).json({ 
+      error: error.message || 'Server error',
+      type: error.name,
+    });
   }
 };

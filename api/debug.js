@@ -3,54 +3,55 @@ module.exports = async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
 
   try {
-    // Log request details
-    const requestInfo = {
-      method: req.method,
-      url: req.url,
-      headers: req.headers,
-      query: req.query,
-      body: req.body,
-      timestamp: new Date().toISOString(),
-    };
-
-    // Check environment
-    const envInfo = {
-      NODE_ENV: process.env.NODE_ENV,
-      MONGODB_URI: process.env.MONGODB_URI ? '✅ CONFIGURED' : '❌ NOT SET',
-      VERCEL: !!process.env.VERCEL,
-      VERCEL_ENV: process.env.VERCEL_ENV,
-      VERCEL_URL: process.env.VERCEL_URL,
-    };
-
     // Check MongoDB connection
-    let mongoStatus = '⏳ Not tested';
+    let mongoStatus = '⏳ Not initialized';
+    let mongoConnected = false;
     try {
       const mongoose = require('mongoose');
-      if (mongoose.connection.readyState === 1) {
+      const state = mongoose.connection.readyState;
+      if (state === 1) {
         mongoStatus = '✅ Connected';
-      } else if (mongoose.connection.readyState === 0) {
-        mongoStatus = '❌ Disconnected';
+        mongoConnected = true;
+      } else if (state === 0) {
+        mongoStatus = '❌ Disconnected (0)';
+      } else if (state === 2) {
+        mongoStatus = '⏳ Connecting (2)';
       } else {
-        mongoStatus = '⏳ Connecting...';
+        mongoStatus = `❓ Unknown state (${state})`;
       }
     } catch (error) {
-      mongoStatus = '❌ Error: ' + error.message;
+      mongoStatus = '❌ ' + error.message;
     }
 
+    // Environment info
+    const envInfo = {
+      NODE_ENV: process.env.NODE_ENV || 'not set',
+      MONGODB_URI_SET: !!process.env.MONGODB_URI,
+      MONGODB_URI_PREVIEW: process.env.MONGODB_URI ? process.env.MONGODB_URI.substring(0, 50) + '...' : 'NOT SET',
+      VERCEL: !!process.env.VERCEL,
+      VERCEL_ENV: process.env.VERCEL_ENV || 'not vercel',
+    };
+
     const debugInfo = {
-      status: 'debug',
-      requestInfo,
-      envInfo,
-      mongoStatus,
+      status: 'debug_info',
+      timestamp: new Date().toISOString(),
+      environment: envInfo,
+      mongodb: {
+        status: mongoStatus,
+        connected: mongoConnected,
+      },
       nodeVersion: process.version,
       uptime: process.uptime(),
+      memory: process.memoryUsage(),
     };
 
     res.status(200).json(debugInfo);
   } catch (error) {
+    console.error('Debug endpoint error:', error);
     res.status(500).json({
-      error: error.message,
-      stack: error.stack,
+      error: 'debug_error',
+      message: error.message,
+      stack: process.env.NODE_ENV === 'production' ? undefined : error.stack,
     });
   }
 };
