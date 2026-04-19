@@ -1,8 +1,8 @@
 export default function Resume() {
   const education = [
     { title: 'Suryodaya College of Engineering & Technology', years: '2024 — 2028', description: 'B.Tech Data Science - Currently in 2nd year pursuing degree with focus on data analysis, machine learning, and problem-solving through real-world projects.' },
-    { title: 'Stella Maris School Rajura', years: '10th Grade', description: 'Secondary education focusing on foundational academics and building core knowledge in mathematics, science, and languages for future studies.' },
-    { title: 'Janta Mahavidyalaya Chandrapur', years: '12th Grade', description: 'Higher secondary education with emphasis on specialized subjects, preparing for college entrance and developing advanced analytical and critical thinking skills.' }
+    { title: 'Janta Mahavidyalaya Chandrapur', years: '12th Grade', description: 'Higher secondary education with emphasis on specialized subjects, preparing for college entrance and developing advanced analytical and critical thinking skills.' },
+    { title: 'Stella Maris School Rajura', years: '10th Grade', description: 'Secondary education focusing on foundational academics and building core knowledge in mathematics, science, and languages for future studies.' }
   ]
 
   const skills = [
