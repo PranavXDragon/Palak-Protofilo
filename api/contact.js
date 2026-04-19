@@ -1,5 +1,4 @@
-import mongoose from 'mongoose';
-import { json } from 'micro';
+const mongoose = require('mongoose');
 
 // MongoDB Connection Configuration
 const mongoUri = process.env.MONGODB_URI || '';
@@ -63,15 +62,19 @@ async function connectDB() {
     isConnected = true;
     console.log('✅ Connected to MongoDB Atlas');
     
-    // Create model
-    Contact = mongoose.model('Contact', contactSchema);
+    // Create model - check if already exists
+    if (mongoose.models.Contact) {
+      Contact = mongoose.models.Contact;
+    } else {
+      Contact = mongoose.model('Contact', contactSchema);
+    }
   } catch (error) {
     console.error('❌ MongoDB connection error:', error.message);
     throw error;
   }
 }
 
-export default async function handler(req, res) {
+module.exports = async (req, res) => {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -168,4 +171,4 @@ export default async function handler(req, res) {
       error: process.env.NODE_ENV === 'development' ? error.message : undefined,
     });
   }
-}
+};
