@@ -19,6 +19,16 @@ export default function Navbar({ activePage, setActivePage }) {
             </button>
           </li>
         ))}
+        <li className="navbar-item">
+          <button
+            className={`navbar-link ${activePage === 'debug' ? 'active' : ''}`}
+            onClick={() => setActivePage('debug')}
+            style={{ fontSize: '12px', opacity: 0.6 }}
+            title="Debug Console"
+          >
+            🔧
+          </button>
+        </li>
       </ul>
     </nav>
   )
