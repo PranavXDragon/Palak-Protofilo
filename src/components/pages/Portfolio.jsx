@@ -1,13 +1,13 @@
 import { useState } from 'react'
 
 const projects = [
-  { id: 1, title: 'Fundo', image: '/project-3.jpg', category: 'web design' },
-  { id: 2, title: 'Brawlhalla', image: '/project-4.png', category: 'applications' },
-  { id: 3, title: 'DSM.', image: '/project-5.png', category: 'web design' },
-  { id: 4, title: 'MetaSpark', image: '/project-6.png', category: 'web design' },
-  { id: 5, title: 'Summary', image: '/project-7.png', category: 'web development' },
-  { id: 6, title: 'Task Manager', image: '/project-8.jpg', category: 'applications' },
-  { id: 7, title: 'Arrival', image: '/project-9.png', category: 'web development' }
+  { id: 1, title: 'Fundo', image: '/assets/images/project-3.jpg', category: 'web design' },
+  { id: 2, title: 'Brawlhalla', image: '/assets/images/project-4.png', category: 'applications' },
+  { id: 3, title: 'DSM.', image: '/assets/images/project-5.png', category: 'web design' },
+  { id: 4, title: 'MetaSpark', image: '/assets/images/project-6.png', category: 'web design' },
+  { id: 5, title: 'Summary', image: '/assets/images/project-7.png', category: 'web development' },
+  { id: 6, title: 'Task Manager', image: '/assets/images/project-8.jpg', category: 'applications' },
+  { id: 7, title: 'Arrival', image: '/assets/images/project-9.png', category: 'web development' }
 ]
 
 export default function Portfolio() {

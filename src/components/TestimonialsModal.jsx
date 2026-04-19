@@ -14,7 +14,7 @@ export default function TestimonialsModal({ testimonial, isOpen, onClose }) {
           <figure className="modal-avatar-box">
             <img src={testimonial.avatar} alt={testimonial.name} width={80} />
           </figure>
-          <img src="/icon-quote.svg" alt="quote icon" />
+          <img src="/assets/icons/icon-quote.svg" alt="quote icon" />
         </div>
         <div className="modal-content">
           <h4 className="h3 modal-title">{testimonial.name}</h4>

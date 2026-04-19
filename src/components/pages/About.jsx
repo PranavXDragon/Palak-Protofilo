@@ -5,34 +5,34 @@ const testimonials = [
   {
     id: 1,
     name: 'Raj Kumar',
-    avatar: '/avatar-1.png',
+    avatar: '/assets/images/avatar-1.png',
     text: 'Palak is curious and always eager to learn new things. She actively works on improving her skills and brings creative ideas to her projects. Her dedication to understanding complex concepts is truly impressive.'
   },
   {
     id: 2,
     name: 'Priya Singh',
-    avatar: '/avatar-2.png',
+    avatar: '/assets/images/avatar-2.png',
     text: 'She is hardworking and quick to learn, consistently improving her technical skills through practice and projects. Palak has a great ability to solve problems efficiently and collaboratively.'
   },
   {
     id: 3,
     name: 'Arun Patel',
-    avatar: '/avatar-3.png',
+    avatar: '/assets/images/avatar-3.png',
     text: 'Working with Palak on projects has been excellent. She brings fresh perspectives and creative solutions to challenges. Her passion for data science and web development is clearly evident in her work.'
   },
   {
     id: 4,
     name: 'Anjali Sharma',
-    avatar: '/avatar-4.png',
+    avatar: '/assets/images/avatar-4.png',
     text: 'Palak is a motivated student who demonstrates strong analytical thinking and problem-solving skills. She is detail-oriented and always willing to go the extra mile to deliver quality work.'
   }
 ]
 
 const services = [
-  { id: 1, title: 'Web design', icon: '/icon-design.svg', text: 'The most modern and high-quality design made at a professional level.' },
-  { id: 2, title: 'Web development', icon: '/icon-dev.svg', text: 'High-quality development of sites at the professional level.' },
-  { id: 3, title: 'Mobile apps', icon: '/icon-app.svg', text: 'Professional development of applications for iOS and Android.' },
-  { id: 4, title: 'Photography', icon: '/icon-photo.svg', text: 'I make high-quality photos of any category at a professional level.' }
+  { id: 1, title: 'Web design', icon: '/assets/icons/icon-design.svg', text: 'The most modern and high-quality design made at a professional level.' },
+  { id: 2, title: 'Web development', icon: '/assets/icons/icon-dev.svg', text: 'High-quality development of sites at the professional level.' },
+  { id: 3, title: 'Mobile apps', icon: '/assets/icons/icon-app.svg', text: 'Professional development of applications for iOS and Android.' },
+  { id: 4, title: 'Photography', icon: '/assets/icons/icon-photo.svg', text: 'I make high-quality photos of any category at a professional level.' }
 ]
 
 export default function About() {

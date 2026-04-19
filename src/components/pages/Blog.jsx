@@ -1,8 +1,8 @@
 ﻿const blogPosts = [
-  { id: 1, title: 'Getting Started with React.js in 2026', image: '/blog-1.jpg', category: 'Web Development', date: 'Apr 10, 2026', excerpt: 'My journey learning React and building dynamic web applications. Tips and tricks for beginners starting with React ecosystem.' },
-  { id: 2, title: 'Data Science Learning Path for Beginners', image: '/blog-2.jpg', category: 'Data Science', date: 'Mar 25, 2026', excerpt: 'Exploring essential tools and libraries in data science. A comprehensive guide to Python, Pandas, and machine learning basics.' },
-  { id: 3, title: 'Building a Fullstack Web Application', image: '/blog-3.jpg', category: 'Web Development', date: 'Mar 5, 2026', excerpt: 'Step-by-step approach to developing both frontend and backend. Creating scalable applications with modern technologies.' },
-  { id: 4, title: 'UI/UX Design Principles and Best Practices', image: '/blog-4.jpg', category: 'Design', date: 'Feb 15, 2026', excerpt: 'Understanding user experience and creating intuitive interfaces. How design thinking improves web application usability.' }
+  { id: 1, title: 'Getting Started with React.js in 2026', image: '/assets/images/blog-1.jpg', category: 'Web Development', date: 'Apr 10, 2026', excerpt: 'My journey learning React and building dynamic web applications. Tips and tricks for beginners starting with React ecosystem.' },
+  { id: 2, title: 'Data Science Learning Path for Beginners', image: '/assets/images/blog-2.jpg', category: 'Data Science', date: 'Mar 25, 2026', excerpt: 'Exploring essential tools and libraries in data science. A comprehensive guide to Python, Pandas, and machine learning basics.' },
+  { id: 3, title: 'Building a Fullstack Web Application', image: '/assets/images/blog-3.jpg', category: 'Web Development', date: 'Mar 5, 2026', excerpt: 'Step-by-step approach to developing both frontend and backend. Creating scalable applications with modern technologies.' },
+  { id: 4, title: 'UI/UX Design Principles and Best Practices', image: '/assets/images/blog-4.jpg', category: 'Design', date: 'Feb 15, 2026', excerpt: 'Understanding user experience and creating intuitive interfaces. How design thinking improves web application usability.' }
 ]
 
 export default function Blog() {
