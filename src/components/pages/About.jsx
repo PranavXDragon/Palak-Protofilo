@@ -4,27 +4,27 @@ import TestimonialsModal from '../TestimonialsModal'
 const testimonials = [
   {
     id: 1,
-    name: 'Daniel lewis',
+    name: 'Raj Kumar',
     avatar: '/avatar-1.png',
-    text: 'Palak was hired to create a corporate identity. We were very pleased with the work done. She has a lot of experience and is very concerned about the needs of client. Lorem ipsum dolor sit amet, ullamcous cididt consectetur adipiscing elit, seds do et eiusmod tempor incididunt ut laborels dolore magnarels alia.'
+    text: 'Palak is curious and always eager to learn new things. She actively works on improving her skills and brings creative ideas to her projects. Her dedication to understanding complex concepts is truly impressive.'
   },
   {
     id: 2,
-    name: 'Jessica miller',
+    name: 'Priya Singh',
     avatar: '/avatar-2.png',
-    text: 'Palak was hired to create a corporate identity. We were very pleased with the work done. She has a lot of experience and is very concerned about the needs of client. Lorem ipsum dolor sit amet, ullamcous cididt consectetur adipiscing elit, seds do et eiusmod tempor incididunt ut laborels dolore magnarels alia.'
+    text: 'She is hardworking and quick to learn, consistently improving her technical skills through practice and projects. Palak has a great ability to solve problems efficiently and collaboratively.'
   },
   {
     id: 3,
-    name: 'Emily evans',
+    name: 'Arun Patel',
     avatar: '/avatar-3.png',
-    text: 'Palak was hired to create a corporate identity. We were very pleased with the work done. She has a lot of experience and is very concerned about the needs of client. Lorem ipsum dolor sit amet, ullamcous cididt consectetur adipiscing elit, seds do et eiusmod tempor incididunt ut laborels dolore magnarels alia.'
+    text: 'Working with Palak on projects has been excellent. She brings fresh perspectives and creative solutions to challenges. Her passion for data science and web development is clearly evident in her work.'
   },
   {
     id: 4,
-    name: 'Henry william',
+    name: 'Anjali Sharma',
     avatar: '/avatar-4.png',
-    text: 'Palak was hired to create a corporate identity. We were very pleased with the work done. She has a lot of experience and is very concerned about the needs of client. Lorem ipsum dolor sit amet, ullamcous cididt consectetur adipiscing elit, seds do et eiusmod tempor incididunt ut laborels dolore magnarels alia.'
+    text: 'Palak is a motivated student who demonstrates strong analytical thinking and problem-solving skills. She is detail-oriented and always willing to go the extra mile to deliver quality work.'
   }
 ]
 
@@ -85,7 +85,7 @@ export default function About() {
         </section>
 
         <section className="testimonials">
-          <h3 className="h3 testimonials-title">Testimonials</h3>
+          <h3 className="h3 testimonials-title">What People Say</h3>
           <ul className="testimonials-list has-scrollbar">
             {testimonials.map(testimonial => (
               <li className="testimonials-item" key={testimonial.id}>
