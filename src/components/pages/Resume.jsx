@@ -6,10 +6,15 @@ export default function Resume() {
   ]
 
   const skills = [
-    { name: 'Web design', percentage: 80 },
-    { name: 'Graphic design', percentage: 70 },
-    { name: 'Branding', percentage: 90 },
-    { name: 'WordPress', percentage: 50 }
+    { name: 'Web Design', percentage: 85 },
+    { name: 'Fullstack Development', percentage: 80 },
+    { name: 'Graphic Design', percentage: 75 },
+    { name: 'React.js', percentage: 82 },
+    { name: 'JavaScript', percentage: 85 },
+    { name: 'Python', percentage: 88 },
+    { name: 'Data Analysis', percentage: 80 },
+    { name: 'UI/UX Design', percentage: 78 },
+    { name: 'Branding', percentage: 90 }
   ]
 
   return (
