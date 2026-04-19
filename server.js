@@ -85,8 +85,14 @@ const Contact = mongoose.model('Contact', contactSchema);
  */
 app.post('/api/contact', async (req, res) => {
   try {
+    console.log('📨 New contact form submission received');
+    
     // Check MongoDB connection
-    if (mongoose.connection.readyState !== 1) {
+    const dbConnected = mongoose.connection.readyState === 1;
+    console.log(`🔌 Database status: ${dbConnected ? 'Connected' : 'Disconnected'}`);
+    
+    if (!dbConnected) {
+      console.log('⚠️ Database not connected, returning 503');
       return res.status(503).json({
         success: false,
         message: 'Database connection unavailable. Please try again in a moment.',
@@ -95,6 +101,7 @@ app.post('/api/contact', async (req, res) => {
     }
 
     const { fullname, email, message } = req.body;
+    console.log(`Received: ${fullname}, ${email}`);
 
     // Validation
     if (!fullname || !email || !message) {
@@ -115,9 +122,10 @@ app.post('/api/contact', async (req, res) => {
 
     // Save to MongoDB
     const savedContact = await newContact.save();
+    console.log(`✅ Contact saved with ID: ${savedContact._id}`);
 
     // Return success response
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       message: 'Your message has been sent successfully!',
       data: {
@@ -128,7 +136,7 @@ app.post('/api/contact', async (req, res) => {
       },
     });
   } catch (error) {
-    console.error('Contact form submission error:', error);
+    console.error('❌ Contact form submission error:', error);
 
     // Handle mongoose validation errors
     if (error.name === 'ValidationError') {
@@ -149,7 +157,13 @@ app.post('/api/contact', async (req, res) => {
     }
 
     // Generic error response
-    res.status(500).json({
+    console.error('Error details:', {
+      name: error.name,
+      message: error.message,
+      code: error.code,
+    });
+
+    return res.status(500).json({
       success: false,
       message: 'Failed to send message. Please try again later.',
       error: process.env.NODE_ENV === 'development' ? error.message : undefined,
@@ -169,12 +183,21 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Error handling middleware
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: `Endpoint not found: ${req.method} ${req.path}`,
+  });
+});
+
+// Error handling middleware - MUST be last
 app.use((err, req, res, next) => {
   console.error('Unhandled error:', err);
-  res.status(500).json({
+  res.status(err.status || 500).json({
     success: false,
-    message: 'Internal server error',
+    message: err.message || 'Internal server error',
+    error: process.env.NODE_ENV === 'development' ? err.stack : undefined,
   });
 });
 

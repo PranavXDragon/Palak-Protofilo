@@ -129,9 +129,16 @@ export default function Contact() {
             </p>
           )}
           {error && (
-            <p className="submit-message" style={{ color: '#ef4444', marginTop: '1rem' }}>
-              ❌ {error}
-            </p>
+            <div style={{ marginTop: '1rem' }}>
+              <p className="submit-message" style={{ color: '#ef4444' }}>
+                ❌ {error}
+              </p>
+              {error.includes('Database') && (
+                <p style={{ color: '#fbbf24', fontSize: '0.9rem', marginTop: '0.5rem' }}>
+                  ℹ️ MongoDB cluster may not be running. Check your cluster status in MongoDB Atlas.
+                </p>
+              )}
+            </div>
           )}
         </form>
       </section>
