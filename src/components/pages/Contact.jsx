@@ -8,21 +8,49 @@ export default function Contact() {
   })
 
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
 
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData(prev => ({ ...prev, [name]: value }))
+    setError('') // Clear error when user starts typing
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // Handle form submission here
-    console.log('Form submitted:', formData)
-    setIsSubmitted(true)
-    setTimeout(() => {
+    setIsLoading(true)
+    setError('')
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to send message')
+      }
+
+      // Success
+      setIsSubmitted(true)
       setFormData({ fullname: '', email: '', message: '' })
-      setIsSubmitted(false)
-    }, 2000)
+
+      // Clear success message after 3 seconds
+      setTimeout(() => {
+        setIsSubmitted(false)
+      }, 3000)
+    } catch (err) {
+      console.error('Form submission error:', err)
+      setError(err.message || 'Failed to send message. Please try again.')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const isFormValid = formData.fullname && formData.email && formData.message
@@ -55,6 +83,7 @@ export default function Contact() {
               required
               value={formData.fullname}
               onChange={handleChange}
+              disabled={isLoading}
             />
             <input
               type="email"
@@ -64,6 +93,7 @@ export default function Contact() {
               required
               value={formData.email}
               onChange={handleChange}
+              disabled={isLoading}
             />
           </div>
           <textarea
@@ -73,16 +103,26 @@ export default function Contact() {
             required
             value={formData.message}
             onChange={handleChange}
+            disabled={isLoading}
           ></textarea>
           <button 
             className="form-btn" 
             type="submit" 
-            disabled={!isFormValid}
+            disabled={!isFormValid || isLoading}
           >
             <ion-icon name="paper-plane"></ion-icon>
-            <span>Send Message</span>
+            <span>{isLoading ? 'Sending...' : 'Send Message'}</span>
           </button>
-          {isSubmitted && <p className="submit-message">Message sent successfully!</p>}
+          {isSubmitted && (
+            <p className="submit-message" style={{ color: '#2dd4bf', marginTop: '1rem' }}>
+              ✅ Message sent successfully! Thank you for reaching out.
+            </p>
+          )}
+          {error && (
+            <p className="submit-message" style={{ color: '#ef4444', marginTop: '1rem' }}>
+              ❌ {error}
+            </p>
+          )}
         </form>
       </section>
     </article>
