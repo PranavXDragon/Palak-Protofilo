@@ -23,7 +23,10 @@ export default function Contact() {
     setError('')
 
     try {
-      const response = await fetch('/api/contact', {
+      // Use relative path - works on localhost and Vercel
+      const apiUrl = process.env.REACT_APP_API_URL || '/api/contact'
+      
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
